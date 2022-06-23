@@ -1,10 +1,10 @@
-# How to change IP geographic location in Real Devices on [LambdaTest](https://www.lambdatest.com/?utm_source=github&utm_medium=repo&utm_campaign=LT-appium-nodejs-geolocation) using the Appium & NodeJS
+# How to handle permission pop-ups in Real Devices on [LambdaTest](https://www.lambdatest.com/?utm_source=github&utm_medium=repo&utm_campaign=LT-appium-nodejs-permissions) using the Appium & NodeJS
 
-While performing app automation testing with appium on LambdaTest Grid, you may face a scenario where you would like to simulate location of a specific country. You can easily do that by using the lambdatest capability "GeoLocation" and refer the 2-letter country code in the automation script. You can refer to sample test repo [here](https://github.com/LambdaTest/LT-appium-nodejs).
+While performing app automation testing with appium on LambdaTest Grid, you may face a scenario where you would like to automatically handle permission pop-ups. You may choose to either accept all permission pop-ups or dismiss all of them. You can handle the case as mentioned below separately for Android or iOS apps. You can refer to sample test repo [here](https://github.com/LambdaTest/LT-appium-nodejs).
 
 # Steps:
 
-The following is an example on how to set geoLocation in the capabilities.
+The following is an example on how to handle permissions in the capabilities in the automation script.
 
 Below is the ```Android.js``` example shown:
 
@@ -12,10 +12,12 @@ Below is the ```Android.js``` example shown:
 var wd = require("wd")
 var assert  = require("assert");
 var asserter = wd.asserters;
+
 username = (process.env.LT_USERNAME == undefined) ? "username" //Enter the username here
         : process.env.LT_USERNAME
 accesskey = (process.env.LT_ACCESS_KEY == undefined) ? "access_key" //Enter the access_key here
         : process.env.LT_ACCESS_KEY
+
 desired_capabilities = {
     'deviceName':'Galaxy S20',
     'platformVersion':'11',
@@ -24,13 +26,23 @@ desired_capabilities = {
     'app':'lt://', //Enter the app_url here
     'visual':true,
     'video': true,
-    
-    //ADD GEOLOCATION BASED ON COUNTRY CODE
-    'geoLocation':'fr' 
+
+    //GRANT PERMISSIONS FOR ANDROID
+    'autoGrantPermissions': true,
+
+    //ACCEPT ALERTS FOR IOS
+    'autoAcceptAlerts': true,
+
+    //DISMISS ALERTS FOR IOS
+    'autoDismissAlerts': false,
 }
+
 driver = wd.promiseRemote(`https://${username}:${accesskey}@mobile-hub.lambdatest.com/wd/hub`)
+
 async function Androidtest(){
+
 try {
+
 driver.init(desired_capabilities)
 .then(function(){
     return driver.waitForElementById('color',10000)
@@ -49,16 +61,20 @@ driver.init(desired_capabilities)
     toast.click()
     return driver.waitForElementById('notification',10000)
 })
+
 .then(function(find){
     find.click()
     driver.quit()
 })
+
 }
 catch (e) {
     driver.quit()
 }
 }
+
 Androidtest(); 
+
 ```
 
 ## Executing The Tests
@@ -123,4 +139,4 @@ To stay updated with the latest features and product add-ons, visit [Changelog](
 ## We are here to help you :headphones:
 
 * Got a query? we are available 24x7 to help. [Contact Us](support@lambdatest.com)
-* For more info, visit - [LambdaTest](https://www.lambdatest.com/?utm_source=github&utm_medium=repo&utm_campaign=LT-appium-nodejs-geolocation)
+* For more info, visit - [LambdaTest](https://www.lambdatest.com/?utm_source=github&utm_medium=repo&utm_campaign=LT-appium-nodejs-permissions)

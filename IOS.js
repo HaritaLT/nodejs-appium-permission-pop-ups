@@ -18,8 +18,11 @@ desired_capabilities = {
     'build':'NodeJS Vanilla - iOS',
     'name': 'Sample Test - NodeJS',
 
-    //ADD GEOLOCATION BASED ON COUNTRY CODE
-    'geoLocation':'fr'  
+    //ACCEPT ALERTS FOR IOS
+    'autoAcceptAlerts': true,
+
+    //DISMISS ALERTS FOR IOS
+    'autoDismissAlerts': false,   
 }
 
 driver = wd.promiseRemote(`https://${username}:${accesskey}@mobile-hub.lambdatest.com/wd/hub`)
